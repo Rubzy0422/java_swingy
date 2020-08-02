@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c7762c0c-a1d2-4fc8-8b4a-eba4617793d6" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1fP0ENKOMo2mmmnZgtI9mYFeMVM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/model" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="view" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ruben\Desktop\swingy\src\main\java\model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ruben\Desktop\swingy\src\main\java\com\wtc\swingy" />
+      <recent name="C:\Users\Ruben\Desktop\swingy\src\main\resources" />
+      <recent name="C:\Users\Ruben\Desktop\swingy\images" />
+      <recent name="C:\Users\Ruben\Desktop\swingy\src\main\java" />
+      <recent name="C:\Users\Ruben\Desktop\swingy\src\main" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JAR Application.swingy-1.0-SNAPSHOT.jar">
+    <configuration name="Swingy" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.wtc.swingy.Swingy" />
+      <module name="swingy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.wtc.swingy.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="swingy-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/target/swingy-1.0-SNAPSHOT.jar" />
+      <method v="2" />
+    </configuration>
+    <configuration name="swingy []" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Swingy" />
+      <item itemvalue="JAR Application.swingy-1.0-SNAPSHOT.jar" />
+      <item itemvalue="Maven.swingy []" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JAR Application.swingy-1.0-SNAPSHOT.jar" />
+        <item itemvalue="Application.Swingy" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c7762c0c-a1d2-4fc8-8b4a-eba4617793d6" name="Default Changelist" comment="" />
+      <created>1596104307374</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596104307374</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="440" y="93" key="#Project_Structure" timestamp="1596110095924">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="93" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1596110095924" />
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596109553826">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1596109553826" />
+    <state x="735" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596234258824">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="735" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1596234258824" />
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1596105046228">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1596105046228" />
+    <state x="1098" y="443" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1596112420752">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1098" y="443" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1596112420752" />
+    <state x="1236" y="426" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1596112448684">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1236" y="426" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1920.1040@0.0.1920.1040" timestamp="1596112448684" />
+    <state width="900" height="181" key="GridCell.Tab.0.bottom" timestamp="1596246203245">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="900" height="181" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596246203245" />
+    <state width="900" height="181" key="GridCell.Tab.0.center" timestamp="1596246203244">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="900" height="181" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596246203244" />
+    <state width="900" height="181" key="GridCell.Tab.0.left" timestamp="1596246203244">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="900" height="181" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596246203244" />
+    <state width="900" height="181" key="GridCell.Tab.0.right" timestamp="1596246203245">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="900" height="181" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596246203245" />
+    <state width="1876" height="336" key="GridCell.Tab.1.bottom" timestamp="1596233867885">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="336" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596233867885" />
+    <state width="1876" height="336" key="GridCell.Tab.1.center" timestamp="1596233867885">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="336" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596233867885" />
+    <state width="1876" height="336" key="GridCell.Tab.1.left" timestamp="1596233867885">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="336" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596233867885" />
+    <state width="1876" height="336" key="GridCell.Tab.1.right" timestamp="1596233867885">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="336" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596233867885" />
+    <state x="970" y="174" key="Maven.ArtifactSearchDialog" timestamp="1596111020999">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="970" y="174" key="Maven.ArtifactSearchDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1596111020999" />
+    <state x="667" y="119" width="585" height="801" key="find.popup" timestamp="1596232818287">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="667" y="119" width="585" height="801" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1596232818287" />
+    <state x="608" y="235" key="run.anything.popup" timestamp="1596150988428">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="608" y="235" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1596150988428" />
+  </component>
+</project>
