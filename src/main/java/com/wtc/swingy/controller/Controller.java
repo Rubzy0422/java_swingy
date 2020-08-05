@@ -20,23 +20,27 @@ public abstract class Controller implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
             Level.MoveChamp(GameController.Champ, -1, 0);
+            GameController.UpdateLevelInfo("LEFT");
         }
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
             Level.MoveChamp(GameController.Champ, 1, 0);
+            GameController.UpdateLevelInfo("RIGHT");
         }
 
         if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
             Level.MoveChamp(GameController.Champ, 0, 1);
+            GameController.UpdateLevelInfo("UP");
         }
 
         if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
             Level.MoveChamp(GameController.Champ, 0, -1);
+            GameController.UpdateLevelInfo("DOWN");
         }
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             GameController.Exit();
         }
-        GameController.UpdateLevelInfo();
+
 
     }  
     /**

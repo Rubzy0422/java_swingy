@@ -22,13 +22,9 @@ public class Level {
     @GeneratedValue
     private Long id;
  
-    private String title;
- 
     private int mapLevel;
 
     private int size;
-
-    private int EnemyEntiries;
     
     // User Champ sould and will always be the first champion
     @Transient
@@ -41,10 +37,14 @@ public class Level {
     )
     private List<Champion> Champions = new ArrayList<>();
 
+    public void LevelUp() {
+        this.mapLevel += 1;
+        this.size = (mapLevel - 1) * 5 + 10 - (mapLevel % 2);
+    }
+
     public Level() {
         this.mapLevel = 1;
-        this.size = (mapLevel - 1) * 5 + 10 - (mapLevel % 2);
-        this.EnemyEntiries = (int) Math.round(Math.random() * (this.size - 1));
+        this.size = (this.mapLevel - 1) * 5 + 10 - (this.mapLevel % 2);
     }
     
 	public void addChampion(Champion champion) {
@@ -62,4 +62,5 @@ public class Level {
         champ.setPlayerx(champ.getPlayerx() + x);
         champ.setPlayery(champ.getPlayery() - y);
     }
+
 }

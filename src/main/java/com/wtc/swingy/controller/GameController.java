@@ -3,13 +3,13 @@ package com.wtc.swingy.controller;
 import java.util.List;
 import java.util.Random;
 
-import com.wtc.swingy.View.GUI.GUIView;
+import javax.validation.constraints.NotNull;
+import com.wtc.swingy.View.ViewCreator;
+import com.wtc.swingy.model.Artifact;
 import com.wtc.swingy.model.Champion;
 import com.wtc.swingy.model.ChampionClass;
 import com.wtc.swingy.model.Level;
 import com.wtc.swingy.model.Persistance;
-
-
 
 
 public final class GameController  {
@@ -18,13 +18,15 @@ public final class GameController  {
     public static ChampionClass chosenClass;
     public static Champion Champ;
     public static Level level;
+    public static List<Level> levels;
     public static Controller KeyLog;
 
     public static void CreateNewChamp() {
-        Champ = new Champion("", ChampionClass.WARRIOR, 1, 0.0f, true, 4, 4);
+        Champ = new Champion("", ChampionClass.WARRIOR, 0, true, 4, 4);
         chosenClass = Champ.getChampionClass();
     }
 
+    @NotNull
     public static String PlayerNameUpdate(final String Name) {
         Champ.setName(Name);
         PlayerDetails = Champ.toString();
@@ -37,7 +39,7 @@ public final class GameController  {
 
     public static void initializeNew() {
         CreateNewChamp();
-        GUIView.initializeNew();
+        ViewCreator.initializeNew();
     }
 
     public static void initializeGame(final String GameStatus) {
@@ -45,65 +47,173 @@ public final class GameController  {
             level = new Level();
             level.addChampion(Champ);
             GenerateChampions();
-
-            Persistance.SaveEntity(level);
-            GUIView.initializeGame();
+                // Persistance.SaveEntity(level);
         }
+        ViewCreator.initializeGame();
     }
 
     public static void GenerateChampions() {
         final Random rand = new Random();
-        int numx;
-        int numy;
-        final int ChampAmount = rand.nextInt(level.getSize() - 1) * 3;
+        
+        final int ChampAmount = (rand.nextInt(level.getSize() - 2) + 1) * 3;
         for (int y = 0; y < ChampAmount; y++) {
-            numx = rand.nextInt(level.getSize());
-            numy = rand.nextInt(level.getSize());
-
-            final Champion tmp = new Champion("RAND", ChampionClass.values()[rand.nextInt(2)], rand.nextInt(3) + 1,
-                    rand.nextFloat() * 40.0f, false, numx, numy);
-            level.addChampion(tmp);
+            GenerateChampion();
         }
     }
 
-    public static void initializeLoad() {
-        final List<Level> lvls = Persistance.em.createQuery("Select a from Level a", Level.class).getResultList();
-        // System.out.println(lvls);
-        for (Level lvl : lvls) {
-            // 1. Get player Champion 
-            // 2. on champion Select Load Level (PlayBtn)
-            System.out.println(lvl.getSize());
-        }
-    }
-
-    public static void initializeMain() {
-        Champ = null;
-        GUIView.initializeMain();
-    }
-
-    public static void UpdateLevelInfo() {
-        if (ChampionCollide()) {
-            System.out.println("BAttle!");
-        }
-        if (Champ.getPlayerx() < 0 || Champ.getPlayery() < 0 || Champ.getPlayerx() >= level.getSize()
-                || Champ.getPlayery() >= level.getSize()) {
-            System.out.println("Congrats you won on level:" + level.getMapLevel());
-            Persistance.delete(level);
-            Exit();
-        }
-        GUIView.updateMap(level);
-    }
-
-    public static boolean ChampionCollide() {
-        for (final Champion _enem : Champ.getEnemies())
-        {
-            if (Champ.getPlayerx() == _enem.getPlayerx() && Champ.getPlayery() == _enem.getPlayery())
+    public static boolean taken(int numx, int  numy) {
+        for (Champion c : level.getChampions())
+        {   
+            if (c.getPlayerx() == numx && c.getPlayery() == numy)
                 return true;
         }
         return false;
     }
 
+    public static void GenerateChampion() {
+        final Random rand = new Random();
+        int numx = rand.nextInt(level.getSize());
+        int numy = rand.nextInt(level.getSize());
+        
+        while (taken(numx, numy))
+        {
+            numx = rand.nextInt(level.getSize());
+            numy = rand.nextInt(level.getSize());
+        }
+
+        int attack = rand.nextInt(Champ.getAttack() + 4);
+        int defense = rand.nextInt(Champ.getDefence() + 4);
+        int hitPoints = rand.nextInt(Champ.getHitPoints() + 4);
+
+        Artifact artifact = new Artifact(Math.round((attack + defense + hitPoints) / 3));
+
+        int xp = rand.nextInt(Champ.getExperience() + 1);
+        
+        final Champion tmp = new Champion("RAND", ChampionClass.values()[rand.nextInt(2)], xp, false, numx, numy);
+        tmp.setAttack(attack);
+        tmp.setDefence(defense);
+        tmp.setHitPoints(hitPoints);
+        tmp.setArtifact(artifact);
+        level.addChampion(tmp);
+    }
+
+    public static void initializeLoad() {
+        levels = Persistance.em.createQuery("Select a from Level a", Level.class).getResultList();
+        // System.out.println(lvls);
+        // for (Level lvl : levels) {
+        //     // 1. Get player Champion 
+        //     // 2. on champion Select Load Level (PlayBtn)
+        //     System.out.println(lvl.getSize());
+        // }
+        ViewCreator.initializeLoad();
+    }
+
+    public static String LoadGame(int index) {
+        if (index != -1)
+        {
+            level = levels.get(index);
+            Champ = level.getChampions().get(0);
+        }
+        return Champ.toString();
+    }
+
+    public static void initializeMain() {
+        Champ = null;
+        ViewCreator.initializeMain();
+    }
+
+    public static void UpdateLevelInfo(String Movement) {
+        Champion _enem = ChampionCollide();
+        if (_enem != null) {
+            if (ViewCreator.Dialog("Would you like to fight?") == 0) {
+                Battle(_enem);
+            }
+            else {
+                Flee(Movement, _enem);
+            }
+        }
+
+        if (Champ.getPlayerx() < 0 || Champ.getPlayery() < 0 || Champ.getPlayerx() >= level.getSize()
+                || Champ.getPlayery() >= level.getSize()) {
+            System.out.println("Congrats you won on level:" + level.getMapLevel());
+            Persistance.delete(level);
+            level = null;
+            Exit();
+        }
+        ViewCreator.updateMap(level);
+    }
+
+    private static void Flee(String Movement, Champion _enem) {
+        Random rand = new Random();
+        int test = rand.nextInt(1);
+
+
+        if ((test % 2 ) == 1) {
+            switch (Movement) {
+//            MOVE BACK
+                case "LEFT": {
+                    Level.MoveChamp(Champ, 1, 0);
+                    break;
+                }
+                case "RIGHT": {
+                    Level.MoveChamp(Champ, -1, 0);
+                    break;
+                }
+                case "UP": {
+                    Level.MoveChamp(Champ, 0, -1);
+                    break;
+                }
+                case "DOWN": {
+                    Level.MoveChamp(Champ, 0, 1);
+                    break;
+                }
+            }
+        }
+        else {
+            Battle(_enem);
+        }
+    }
+
+    private static void Battle(Champion _enem) {
+        Random rand = new Random();
+        // System.out.println("Battle!");
+        int points = Champ.compare(_enem);
+        if (points >= 0)
+        {
+            Champ.setExperience(Champ.getExperience() + points);
+            level.removeChampion(_enem);
+            if (rand.nextInt(100) % 5 == 0)
+            {
+                if (ViewCreator.Dialog("Do You want Artifact: " + _enem.getArtifact() + " ?") == 0)
+                    Champ.setArtifact(_enem.getArtifact());
+            }
+            else {
+                ViewCreator.Infodlg("Battle Won!");
+            }
+            GenerateChampion();
+        }
+        else {
+            ViewCreator.Infodlg("You Lost the Mission!");
+            Persistance.delete(level);
+            level = null;
+            Exit();
+        }
+
+    }
+
+    public static Champion ChampionCollide() {
+        for (final Champion _enem : Champ.getEnemies())
+        {
+            if (Champ.getPlayerx() == _enem.getPlayerx() && Champ.getPlayery() == _enem.getPlayery())
+                return _enem;
+        }
+        return null;
+    }
+
     public static void Exit() {
+        if (level != null) {
+            Persistance.SaveEntity(level);
+        }
         System.exit(0);
     }
 }

@@ -1,7 +1,5 @@
 package com.wtc.swingy.model;
 
-import java.util.List;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -24,7 +22,7 @@ public final class Persistance {
         try {
             System.out.println("SAVE ENTITY");
             em.getTransaction().begin();
-            em.persist(entity);
+            em.merge(entity);
             em.getTransaction().commit();
 
             // em.flush();

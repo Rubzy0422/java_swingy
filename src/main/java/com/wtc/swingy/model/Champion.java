@@ -2,16 +2,15 @@ package com.wtc.swingy.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import javassist.expr.NewArray;
 import lombok.Data;
 
 
@@ -25,11 +24,10 @@ public class Champion {
     private Long id;
     private String Name;
     private ChampionClass ChampionClass;
-    private int ChampLevel;
-    private float Experience;
-    private float Attack;
-    private float Defence;
-    private float HitPoints;
+    private int Experience;
+    private int Attack;
+    private int Defence;
+    private int HitPoints;
     private boolean UserGenerated;
     private int playerx;
     private int playery;
@@ -38,17 +36,40 @@ public class Champion {
     @ManyToOne(fetch = FetchType.LAZY)
     private Level level;
   
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Champion )) return false;
-        return id != null && id.equals(((Champion) o).getId());
+    @OneToOne(fetch = FetchType.LAZY)
+    private Artifact artifact;
+    
+    public int compare(Champion champ) {
+        
+        int pScore = (this.HitPoints * this.Defence) - champ.getAttack();
+        int eScore = (champ.getHitPoints() * champ.getAttack())  - this.Attack;       
+        pScore += this.Experience;
+        eScore += champ.getExperience();
+        System.out.println(pScore + " : " + eScore );
+        if (pScore >= eScore)
+            return Math.abs(eScore - pScore) * 10;
+        return -1;
     }
- 
-    // @Override
-    // public int hashCode() {
-    //     return 31;
-    // }
+
+    public void setExperience(int Experience)
+    {
+        Random rand = new Random();
+        this.Experience = Experience;
+        if (this.Experience >= this.level.getMapLevel() * 1000 + (this.level.getMapLevel() - 1) * (this.level.getMapLevel() - 1) * 450)
+        {
+            System.out.println("LEVEL UP");
+            this.level.LevelUp();
+            for (Champion c : this.level.getChampions())
+            {
+                c.setExperience(rand.nextInt(c.getExperience() + 10));
+                c.setAttack(rand.nextInt(c.getAttack() + 2));
+                c.setDefence(rand.nextInt(c.getDefence() + 2));
+                c.setHitPoints(rand.nextInt(c.getHitPoints() + 2));
+        
+                // Artifact artifact = new Artifact(level.getMapLevel());
+            }
+        }
+    }
 
     public List<Champion> getEnemies()
     {
@@ -62,19 +83,28 @@ public class Champion {
         return tmp;
     }
 
-    // float Attack, float Defence, float HitPoints,
-	public Champion(String name, ChampionClass ChampionClass, int ChampLevel, float Experience, boolean UserGenerated, int playerx, int playery) {
+    // int Attack, int Defence, int HitPoints,
+	public Champion(String name, ChampionClass ChampionClass, int Experience, boolean UserGenerated, int playerx, int playery) {
         this.Name = name;
         setChampionClass(ChampionClass);
-        this.ChampLevel = ChampLevel;
         this.Experience = Experience;
         this.UserGenerated = UserGenerated;
         this.playerx = playerx;
         this.playery = playery;
     }
 
+    public Champion() {};
+    
     public String toString() {
-        return String.format("HERO NAME:\t\t%s\n\nHERO CLASS:\t\t%s\nHERO ATTACK:\t\t%f\nHERO DEFENSE:\t\t%f\nHERO HIT POINTS:\t\t%f\n\nHERO LEVEL:\t\t%d\nHERO XP:\t\t\t%f\n", this.Name, this.ChampionClass, this.Attack, this.Defence, this.HitPoints, this.ChampLevel, this.Experience);
+        StringBuilder sb = new StringBuilder();
+        sb.append("HERO NAME:\t\t").append(this.Name).append("\n")
+        .append("HERO CLASS:\t\t").append(this.ChampionClass.name()).append("\n")
+        .append("HERO ATTACK:\t\t").append(this.Attack).append("\n")
+        .append(" HERO DEFENSE:\t\t").append(this.Defence).append("\n")
+        .append("HERO HIT POINTS:\t\t").append(this.HitPoints).append("\n")
+        .append("HERO XP:\t\t\t").append(this.Experience).append("\n");
+
+        return sb.toString();
     }
 
     public void setChampionClass(ChampionClass _ChampionClass) {
@@ -98,4 +128,42 @@ public class Champion {
             }
         }
 	}
+
+    public void setArtifact(Artifact artifact) {
+        
+        if (this.artifact != null)
+        {
+            switch (this.artifact.getArtifactType())
+            {
+                case ARMOR:
+                    this.Defence -= this.artifact.getValue();
+                    break;
+                case HELM:
+                    this.HitPoints -= this.artifact.getValue();
+                    break;
+                case WEAPON:
+                    this.Attack -= this.artifact.getValue();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        switch (artifact.getArtifactType())
+        {
+            case ARMOR:
+                this.Defence += artifact.getValue();
+                break;
+            case HELM:
+                this.HitPoints += artifact.getValue();
+                break;
+            case WEAPON:
+                this.Attack += artifact.getValue();
+                break;
+            default:
+                break;
+            
+        }
+        this.artifact = artifact;
+    }
 }

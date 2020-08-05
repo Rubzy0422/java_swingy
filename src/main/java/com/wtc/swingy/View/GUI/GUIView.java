@@ -1,7 +1,5 @@
 package com.wtc.swingy.View.GUI;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -17,7 +15,6 @@ import java.awt.event.*;
 
 public final class GUIView {
     private static JFrame frame;
-    private static JPanel jPanel;
     private static JTextPane textPane;
     private static JTextField txtName;
 
@@ -33,7 +30,8 @@ public final class GUIView {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.getContentPane().removeAll();
         frame.repaint();
-        jPanel = new JPanel();
+        frame.setVisible(true);
+        // System.out.println(frame.getSize().getWidth() + "," + frame.getSize().getHeight()); 
     }
 
     public static ImageIcon scaleImage(final ImageIcon icon, final int w, final int h) {
@@ -107,66 +105,67 @@ public final class GUIView {
         comboBox.setModel(new DefaultComboBoxModel<ChampionClass>(ChampionClass.values()));
 
 
-        GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-        groupLayout.setHorizontalGroup(
-                groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        final GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+        groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(groupLayout.createSequentialGroup().addContainerGap().addGroup(groupLayout
+                        .createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
+                                .createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                .addGroup(groupLayout.createSequentialGroup()
+                                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                .addComponent(lblStats, GroupLayout.PREFERRED_SIZE, 156,
+                                                        GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(textPane, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+                                        .addGap(311)
+                                        .addComponent(HeroImg, GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
+                                .addGroup(groupLayout.createSequentialGroup()
+                                        .addComponent(btnMainMenu, GroupLayout.PREFERRED_SIZE, 103,
+                                                GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED).addComponent(btnPlay,
+                                                GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)))
+                                .addGap(30))
                         .addGroup(groupLayout.createSequentialGroup()
-                                .addContainerGap()
                                 .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                                        .addGroup(groupLayout.createSequentialGroup()
-                                                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(lblStats, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(textPane, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
-                                                                .addGap(311)
-                                                                .addComponent(HeroImg, GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
-                                                        .addGroup(groupLayout.createSequentialGroup()
-                                                                .addComponent(btnMainMenu, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(btnPlay, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(30))
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(lblName, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(lblClass, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(txtName, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE))
-                                                .addContainerGap(602, Short.MAX_VALUE))))
-        );
-        groupLayout.setVerticalGroup(
-                groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                        .addGroup(groupLayout.createSequentialGroup()
-                                .addGap(27)
-                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblName, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addGap(18)
-                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblClass, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addGap(104)
+                                        .addComponent(lblName, GroupLayout.PREFERRED_SIZE, 156,
+                                                GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblClass, GroupLayout.PREFERRED_SIZE, 156,
+                                                GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addComponent(lblStats, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(6)
-                                                .addComponent(textPane, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
-                                        .addComponent(HeroImg, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
-                                .addGap(18)
-                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(btnPlay, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnMainMenu, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-                                .addGap(64))
-        );
+                                        .addComponent(txtName, GroupLayout.PREFERRED_SIZE, 234,
+                                                GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 236,
+                                                GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(602, Short.MAX_VALUE)))));
+        groupLayout.setVerticalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                .addGroup(groupLayout.createSequentialGroup().addGap(27)
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblName, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+                                        GroupLayout.PREFERRED_SIZE))
+                        .addGap(18)
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblClass, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+                                        GroupLayout.PREFERRED_SIZE))
+                        .addGap(104)
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(groupLayout.createSequentialGroup()
+                                        .addComponent(lblStats, GroupLayout.PREFERRED_SIZE, 19,
+                                                GroupLayout.PREFERRED_SIZE)
+                                        .addGap(6)
+                                        .addComponent(textPane, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+                                .addComponent(HeroImg, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+                        .addGap(18)
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnPlay, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnMainMenu, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
+                        .addGap(64)));
 
         frame.getContentPane().setLayout(groupLayout);
 
-
-        // Initial Text 
+        // Initial Text
         textPane.setText(GameController.Champ.toString());
-
 
         // Controllers
         txtName.addKeyListener(new KeyAdapter() {
@@ -177,7 +176,7 @@ public final class GUIView {
                 textPane.setText(GameController.Champ.toString());
             }
         });
-    
+
         btnMainMenu.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 GameController.initializeMain();
@@ -187,8 +186,10 @@ public final class GUIView {
         comboBox.addItemListener(new ItemListener() {
             public void itemStateChanged(final ItemEvent e) {
                 try {
-                    GameController.chosenClass = (ChampionClass)comboBox.getSelectedItem();
-                    final ImageIcon icon = scaleImage(new ImageIcon("src/main/resources/" + GameController.chosenClass.name() + ".png"), 1024, 768);
+                    GameController.chosenClass = (ChampionClass) comboBox.getSelectedItem();
+                    final ImageIcon icon = scaleImage(
+                            new ImageIcon("src/main/resources/" + GameController.chosenClass.name() + ".png"), 1024,
+                            768);
                     HeroImg.setIcon(icon);
                     System.out.println(GameController.chosenClass);
                     GameController.Champ.setChampionClass(GameController.chosenClass);
@@ -198,19 +199,19 @@ public final class GUIView {
                 }
             }
         });
-        
+
         btnPlay.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 GameController.initializeGame("NEW");
             }
         });
-        
+
         frame.setVisible(true);
     }
 
     public static void initializeMain() {
         ClearFrame();
-       
+
         final JLabel BackGroundImg = new JLabel();
         BackGroundImg.setFont(new Font("Tahoma", Font.PLAIN, 40));
         BackGroundImg.setBackground(Color.BLACK);
@@ -224,19 +225,16 @@ public final class GUIView {
 
         final JPanel panel = new JPanel();
         panel.setBackground(Color.BLACK);
-       
-       
+
         final JButton btnLoadGame = new JButton("Load Game");
         btnLoadGame.setForeground(Color.WHITE);
         btnLoadGame.setFont(new Font("Tahoma", Font.PLAIN, 15));
         btnLoadGame.setBackground(Color.BLACK);
 
-
         final JButton btnNewGame = new JButton("New Game");
         btnNewGame.setForeground(Color.WHITE);
         btnNewGame.setFont(new Font("Tahoma", Font.PLAIN, 15));
         btnNewGame.setBackground(Color.BLACK);
-
 
         final JButton btnExit = new JButton("Exit");
         btnExit.setForeground(Color.WHITE);
@@ -273,10 +271,10 @@ public final class GUIView {
         panel.setLayout(gl_panel);
 
         frame.getContentPane().setLayout(groupLayout);
-        frame.setVisible(true);  
-        
+        frame.setVisible(true);
 
-        //  ========================================= CONTROLLER Linkers ==============================================================================
+        // ========================================= CONTROLLER Linkers
+        // ==============================================================================
         btnLoadGame.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 GameController.initializeLoad();
@@ -295,7 +293,6 @@ public final class GUIView {
             }
         });
     }
-
 
     public static void initializeLoad() {
         ClearFrame();
@@ -323,8 +320,38 @@ public final class GUIView {
         btnPlay.setFont(new Font("Tahoma", Font.PLAIN, 15));
         btnPlay.setEnabled(false);
         btnPlay.setBackground(Color.BLACK);
-       
+
         final JScrollPane scrollUsers = new JScrollPane();
+        final JList<String> lstLoadGame = new JList<String>();
+        lstLoadGame.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(final ListSelectionEvent e) {
+                textPane.setText(GameController.LoadGame(lstLoadGame.getSelectedIndex()));
+                btnPlay.setEnabled(GameController.ValidateStart());
+                try {
+                    final ImageIcon icon = scaleImage(new ImageIcon("src/main/resources/" + GameController.Champ.getChampionClass().name() + ".png"), 1024,768);
+                    HeroImg.setIcon(icon);
+                    HeroImg.setText(GameController.Champ.getName());
+                } catch (final Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+        });
+
+        DefaultListModel<String> model = new DefaultListModel<String>();
+        for(Level lvl : GameController.levels){
+            model.addElement(lvl.toString());
+        }    
+        lstLoadGame.setModel(model);
+        lstLoadGame.setSelectedIndex(0);
+        // lstLoadGame.setModel(new DefaultListModel<Level>();
+        // for (final Level lvl : ) {
+        //     listMod.addElement(lvl);
+        // });
+        lstLoadGame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lstLoadGame.setForeground(Color.WHITE);
+        lstLoadGame.setBackground(Color.DARK_GRAY);
+        scrollUsers.setViewportView(lstLoadGame);
+
         final GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
         groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
@@ -362,36 +389,10 @@ public final class GUIView {
                                 .addComponent(btnMainMenu, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
                         .addGap(64)));
 
-        final JList<String> lstLoadGame = new JList<String>();
-        lstLoadGame.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(final ListSelectionEvent e) {
-                System.out.println("CHANGE!");
-            }
-        });
-        lstLoadGame.setModel(new AbstractListModel<String>() {
-            /**
-             *
-             */
-            private static final long serialVersionUID = 1L;
-            String[] values = new String[] {" a" , "b", "c"};
-
-            public int getSize() {
-                return values.length;
-            }
-
-            public String getElementAt(final int index) {
-                return values[index];
-            }
-        });
-        lstLoadGame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        lstLoadGame.setForeground(Color.WHITE);
-        lstLoadGame.setBackground(Color.DARK_GRAY);
-        scrollUsers.setViewportView(lstLoadGame);
-
         frame.getContentPane().setLayout(groupLayout);
-        frame.setVisible(true);
 
-        //============================================================== CONTROLLER LINKERS =====================================================
+        // ============================================================== CONTROLLER
+        // LINKERS =====================================================
         btnMainMenu.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 initializeMain();
@@ -404,6 +405,16 @@ public final class GUIView {
         });
     }
 
+    public static int Dialog(final String msg) {
+        final int dialogResult = JOptionPane.showConfirmDialog(null, msg, "Info", JOptionPane.YES_OPTION,
+                JOptionPane.NO_OPTION);
+        return dialogResult;
+    }
+
+    public static void Infodlg(final String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+   }
+
     public static void initializeGame() {
         ClearFrame();
         updateMap(GameController.level);
@@ -411,6 +422,7 @@ public final class GUIView {
 
     public static void updateMap(final Level Map) {
         ClearFrame();
+        JPanel jPanel = new JPanel();
         jPanel.setLayout(new GridLayout(GameController.level.getSize(), GameController.level.getSize()));
         jPanel.setBackground(Color.BLACK);
         for (int y = 0; y < Map.getSize(); y++)
@@ -423,6 +435,7 @@ public final class GUIView {
                                 new ImageIcon("src/main/resources/" + Champ.getChampionClass() + ".png"), 100, 100);
                         tmp.setIcon(icon);
                         tmp.setText("");
+                        tmp.setToolTipText(Champ.getAttack() + " " + Champ.getDefence() + " "+ Champ.getHitPoints() + " "+ Champ.getExperience());
                         set = true;
                         break;
                     }
@@ -442,4 +455,6 @@ public final class GUIView {
 
         frame.requestFocus();
     }
+
+
 }

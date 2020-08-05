@@ -13,8 +13,8 @@ public class Swingy {
             else if (args[0].toUpperCase().equals("GUI"))
                 View = "GUI";
         }    
-        ViewCreator.WelcomeWindowView(View);
-       
+        ViewCreator.viewType = View;
+        ViewCreator.initializeMain();
     }
 
 }
