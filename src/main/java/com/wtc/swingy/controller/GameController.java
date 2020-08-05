@@ -1,6 +1,6 @@
 package com.wtc.swingy.controller;
 
-
+import java.util.List;
 import java.util.Random;
 
 import com.wtc.swingy.View.GUI.GUIView;
@@ -25,7 +25,7 @@ public final class GameController  {
         chosenClass = Champ.getChampionClass();
     }
 
-    public static String PlayerNameUpdate(String Name) {
+    public static String PlayerNameUpdate(final String Name) {
         Champ.setName(Name);
         PlayerDetails = Champ.toString();
         return Name;
@@ -40,7 +40,7 @@ public final class GameController  {
         GUIView.initializeNew();
     }
 
-    public static void initializeGame(String GameStatus) {
+    public static void initializeGame(final String GameStatus) {
         if (GameStatus.equals("NEW")) {
             level = new Level();
             level.addChampion(Champ);
@@ -51,23 +51,29 @@ public final class GameController  {
         }
     }
 
-    public static void GenerateChampions()
-    {
-        Random rand = new Random();
+    public static void GenerateChampions() {
+        final Random rand = new Random();
         int numx;
         int numy;
-        int ChampAmount = rand.nextInt(level.getSize() - 1) * 3; 
+        final int ChampAmount = rand.nextInt(level.getSize() - 1) * 3;
         for (int y = 0; y < ChampAmount; y++) {
             numx = rand.nextInt(level.getSize());
             numy = rand.nextInt(level.getSize());
-        
-            Champion tmp = new Champion("RAND", ChampionClass.values()[rand.nextInt(2)], rand.nextInt(3) + 1 , rand.nextFloat() * 40.0f, false, numx, numy);
+
+            final Champion tmp = new Champion("RAND", ChampionClass.values()[rand.nextInt(2)], rand.nextInt(3) + 1,
+                    rand.nextFloat() * 40.0f, false, numx, numy);
             level.addChampion(tmp);
         }
-   }
+    }
 
     public static void initializeLoad() {
-
+        final List<Level> lvls = Persistance.em.createQuery("Select a from Level a", Level.class).getResultList();
+        // System.out.println(lvls);
+        for (Level lvl : lvls) {
+            // 1. Get player Champion 
+            // 2. on champion Select Load Level (PlayBtn)
+            System.out.println(lvl.getSize());
+        }
     }
 
     public static void initializeMain() {
@@ -76,13 +82,12 @@ public final class GameController  {
     }
 
     public static void UpdateLevelInfo() {
-        if (ChampionCollide())
-        {
+        if (ChampionCollide()) {
             System.out.println("BAttle!");
         }
-        if (Champ.getPlayerx() < 0 || Champ.getPlayery() < 0 || Champ.getPlayerx() >= level.getSize() || Champ.getPlayery() >= level.getSize())
-        {
-            System.out.println("Congrats you won on level:"  + level.getMapLevel());
+        if (Champ.getPlayerx() < 0 || Champ.getPlayery() < 0 || Champ.getPlayerx() >= level.getSize()
+                || Champ.getPlayery() >= level.getSize()) {
+            System.out.println("Congrats you won on level:" + level.getMapLevel());
             Persistance.delete(level);
             Exit();
         }
@@ -90,7 +95,7 @@ public final class GameController  {
     }
 
     public static boolean ChampionCollide() {
-        for (Champion _enem : Champ.getEnemies())
+        for (final Champion _enem : Champ.getEnemies())
         {
             if (Champ.getPlayerx() == _enem.getPlayerx() && Champ.getPlayery() == _enem.getPlayery())
                 return true;
