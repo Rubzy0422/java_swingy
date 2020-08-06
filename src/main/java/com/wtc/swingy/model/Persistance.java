@@ -2,14 +2,23 @@ package com.wtc.swingy.model;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-public final class Persistance {
-    private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("puapi");
-    public static javax.persistence.EntityManager em = factory.createEntityManager();
+import javax.persistence.RollbackException;
 
 
-    public void stopfactory() {
+public final class Persistance <T> {
+    private static EntityManagerFactory factory;
+    public javax.persistence.EntityManager em;
+
+
+    public Persistance()
+    {
+        factory = Persistence.createEntityManagerFactory("puapi");
+        em = factory.createEntityManager();
+    }
+
+    public void CompletePersist() {
         if (em != null) {
+            
             em.close();
         }
         if (factory != null) {
@@ -18,28 +27,24 @@ public final class Persistance {
     }
 
 
-    public static <T> void SaveEntity(final T entity) {
+    public void SaveEntity(final T entity) {
+        em.getTransaction().begin();
+        em.merge(entity);
+        // em.flush();
         try {
-            System.out.println("SAVE ENTITY");
-            em.getTransaction().begin();
-            em.merge(entity);
             em.getTransaction().commit();
-
-            // em.flush();
-        } catch (final Exception ex) {
-            System.out.println("ERRPOR SAVING entity:" + ex);
-            System.exit(-1);
+        }
+        catch (RollbackException ex)
+        {
+            System.out.println(ex.getMessage());
         }
     }
 
-    public static <T> void delete(final T entity) {
+    public void delete(final T entity) {
         try {
-
             em.getTransaction().begin();
             em.remove(entity);
             em.getTransaction().commit();
-
-            // em.flush();
         } catch (final Exception ex)
         {         
             System.out.println("ERRPOR Removing entity:" + ex);

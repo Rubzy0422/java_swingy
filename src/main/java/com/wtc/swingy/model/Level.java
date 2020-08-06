@@ -38,8 +38,11 @@ public class Level {
     private List<Champion> Champions = new ArrayList<>();
 
     public void LevelUp() {
-        this.mapLevel += 1;
-        this.size = (mapLevel - 1) * 5 + 10 - (mapLevel % 2);
+        if (this.mapLevel < 7)
+        {
+            this.mapLevel += 1;
+            this.size = (mapLevel - 1) * 5 + 10 - (mapLevel % 2);
+        }
     }
 
     public Level() {

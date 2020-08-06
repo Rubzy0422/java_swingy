@@ -3,7 +3,7 @@ package com.wtc.swingy;
 import com.wtc.swingy.View.ViewCreator;
 
 public class Swingy {
-    static String View = "GUI";
+    static String View = "CONSOLE";
 
     public static void main(String[] args) {
         if (args.length >= 1)

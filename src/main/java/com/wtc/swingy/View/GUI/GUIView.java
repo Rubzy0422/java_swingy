@@ -24,7 +24,12 @@ public final class GUIView {
             frame.setForeground(Color.WHITE);
             frame.getContentPane().setBackground(Color.BLACK);
             frame.addKeyListener(new Controller(){});
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent evt) {
+                  GameController.Exit();
+                }
+               });
         }
         frame.getContentPane().setLayout(new BorderLayout());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -168,12 +173,17 @@ public final class GUIView {
         textPane.setText(GameController.Champ.toString());
 
         // Controllers
-        txtName.addKeyListener(new KeyAdapter() {
+        txtName.addFocusListener(new FocusListener() {
+            public void focusLost(FocusEvent e) {
+                if (!e.isTemporary()) {
+                    HeroImg.setText(GameController.PlayerNameUpdate(txtName.getText()));
+                    btnPlay.setEnabled(GameController.ValidateStart());
+                    textPane.setText(GameController.Champ.toString());
+                }
+            }
+
             @Override
-            public void keyReleased(final KeyEvent e) {
-                HeroImg.setText(GameController.PlayerNameUpdate(txtName.getText()));
-                btnPlay.setEnabled(GameController.ValidateStart());
-                textPane.setText(GameController.Champ.toString());
+            public void focusGained(FocusEvent e) {
             }
         });
 

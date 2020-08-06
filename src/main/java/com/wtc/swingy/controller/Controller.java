@@ -18,31 +18,36 @@ public abstract class Controller implements KeyListener {
      */
     // public void keyPressed(KeyEvent e) {}
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+        if (e.getKeyCode() > 0)
+            ikeyPressed(e.getKeyCode());
+    }  
+
+    public static void ikeyPressed(int k) {
+        if (k == KeyEvent.VK_LEFT || k == KeyEvent.VK_A) {
             Level.MoveChamp(GameController.Champ, -1, 0);
             GameController.UpdateLevelInfo("LEFT");
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+        if (k == KeyEvent.VK_RIGHT || k == KeyEvent.VK_D) {
             Level.MoveChamp(GameController.Champ, 1, 0);
             GameController.UpdateLevelInfo("RIGHT");
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+        if (k == KeyEvent.VK_UP || k == KeyEvent.VK_W) {
             Level.MoveChamp(GameController.Champ, 0, 1);
             GameController.UpdateLevelInfo("UP");
         }
 
-        if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+        if (k == KeyEvent.VK_DOWN || k == KeyEvent.VK_S) {
             Level.MoveChamp(GameController.Champ, 0, -1);
             GameController.UpdateLevelInfo("DOWN");
         }
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (k == KeyEvent.VK_ESCAPE || k == KeyEvent.VK_Q) {
             GameController.Exit();
         }
 
 
-    }  
+    }
     /**
      * Invoked when a key has been released.
      */

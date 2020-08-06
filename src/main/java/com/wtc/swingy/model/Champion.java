@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.Data;
 
 
@@ -22,14 +26,27 @@ public class Champion {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Size(max = 20, min = 3, message = "Player Name Must Be between three and 20 Characters long")
+    @NotEmpty(message = "Please enter name")
     private String Name;
+
     private ChampionClass ChampionClass;
+
     private int Experience;
+
     private int Attack;
+
     private int Defence;
+
     private int HitPoints;
+    
+    @NotNull(message = "Champion must be user or system generated!")
     private boolean UserGenerated;
+    
+    
     private int playerx;
+    
     private int playery;
  
 
@@ -121,7 +138,7 @@ public class Champion {
                 this.Defence = 2;
                 this.HitPoints = 2; 
             }
-            case SPEARMAN : {
+            case PIKEMAN : {
                 this.Attack = 3;
                 this.Defence = 1; 
                 this.HitPoints = 3;

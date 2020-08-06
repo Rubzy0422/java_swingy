@@ -23,8 +23,12 @@ public class Artifact {
 
     public Artifact(int level) {
         Random rand = new Random();
-        this.artifactType = ArtifactType.values()[rand.nextInt(ArtifactType.values().length)];
-        this.value = rand.nextInt(level * 10);
+        this.artifactType = ArtifactType.values()[rand.nextInt(3)];
+        this.value = rand.nextInt(level);
+    }
+
+    public Artifact() {
+        
     }
 
     @Override

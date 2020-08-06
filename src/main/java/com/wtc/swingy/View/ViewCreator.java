@@ -5,7 +5,7 @@ import com.wtc.swingy.View.GUI.GUIView;
 import com.wtc.swingy.model.Level;
 
 public final class ViewCreator {
-    public static String viewType = "GUI";
+    public static String viewType = "CONSOLE";
 
     public static void initializeNew() {
         if (viewType.equals("CONSOLE"))

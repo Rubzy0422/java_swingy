@@ -2,8 +2,11 @@ package com.wtc.swingy.controller;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import com.wtc.swingy.View.ViewCreator;
 import com.wtc.swingy.model.Artifact;
 import com.wtc.swingy.model.Champion;
@@ -20,13 +23,15 @@ public final class GameController  {
     public static Level level;
     public static List<Level> levels;
     public static Controller KeyLog;
+    private static Persistance<Level> pers = new Persistance<Level>();
+    private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    private static javax.validation.Validator validator = factory.getValidator();
 
     public static void CreateNewChamp() {
         Champ = new Champion("", ChampionClass.WARRIOR, 0, true, 4, 4);
         chosenClass = Champ.getChampionClass();
     }
 
-    @NotNull
     public static String PlayerNameUpdate(final String Name) {
         Champ.setName(Name);
         PlayerDetails = Champ.toString();
@@ -34,7 +39,17 @@ public final class GameController  {
     }
 
     public static boolean ValidateStart() {
-        return (!Champ.getName().isEmpty());
+        String ValidationProblems = "";
+        Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(Champ);
+     
+        if (constraintViolations.size() > 0) {
+            for (ConstraintViolation<Champion> violation : constraintViolations) {
+                ValidationProblems += violation.getMessage() + "\n";
+            }
+        }
+        if (!ValidationProblems.isEmpty())
+            ViewCreator.Infodlg(ValidationProblems);
+        return constraintViolations.size() <= 0;
     }
 
     public static void initializeNew() {
@@ -47,7 +62,7 @@ public final class GameController  {
             level = new Level();
             level.addChampion(Champ);
             GenerateChampions();
-                // Persistance.SaveEntity(level);
+            pers.SaveEntity(level);
         }
         ViewCreator.initializeGame();
     }
@@ -81,11 +96,15 @@ public final class GameController  {
             numy = rand.nextInt(level.getSize());
         }
 
-        int attack = rand.nextInt(Champ.getAttack() + 4);
-        int defense = rand.nextInt(Champ.getDefence() + 4);
-        int hitPoints = rand.nextInt(Champ.getHitPoints() + 4);
+        // System.out.println(Champ.getAttack() + 4);
 
-        Artifact artifact = new Artifact(Math.round((attack + defense + hitPoints) / 3));
+        int attack =  rand.nextInt(Champ.getAttack() + 4); 
+        int defense = rand.nextInt(Champ.getDefence() + 4); 
+        int hitPoints = rand.nextInt(Champ.getHitPoints() + 4); 
+
+        int VillanPower = Math.round((attack + defense + hitPoints) / 3);
+
+        Artifact artifact = new Artifact(VillanPower > 0 ? VillanPower: 1);
 
         int xp = rand.nextInt(Champ.getExperience() + 1);
         
@@ -98,7 +117,7 @@ public final class GameController  {
     }
 
     public static void initializeLoad() {
-        levels = Persistance.em.createQuery("Select a from Level a", Level.class).getResultList();
+        levels = pers.em.createQuery("Select a from Level a", Level.class).getResultList();
         // System.out.println(lvls);
         // for (Level lvl : levels) {
         //     // 1. Get player Champion 
@@ -125,7 +144,7 @@ public final class GameController  {
     public static void UpdateLevelInfo(String Movement) {
         Champion _enem = ChampionCollide();
         if (_enem != null) {
-            if (ViewCreator.Dialog("Would you like to fight?") == 0) {
+            if (ViewCreator.Dialog("Would you like to fight [Y/N]?") == 0) {
                 Battle(_enem);
             }
             else {
@@ -136,7 +155,7 @@ public final class GameController  {
         if (Champ.getPlayerx() < 0 || Champ.getPlayery() < 0 || Champ.getPlayerx() >= level.getSize()
                 || Champ.getPlayery() >= level.getSize()) {
             System.out.println("Congrats you won on level:" + level.getMapLevel());
-            Persistance.delete(level);
+            pers.delete(level);
             level = null;
             Exit();
         }
@@ -184,7 +203,7 @@ public final class GameController  {
             level.removeChampion(_enem);
             if (rand.nextInt(100) % 5 == 0)
             {
-                if (ViewCreator.Dialog("Do You want Artifact: " + _enem.getArtifact() + " ?") == 0)
+                if (ViewCreator.Dialog("Do You want Artifact: " + _enem.getArtifact() + "[Y/N] ?") == 0)
                     Champ.setArtifact(_enem.getArtifact());
             }
             else {
@@ -194,7 +213,7 @@ public final class GameController  {
         }
         else {
             ViewCreator.Infodlg("You Lost the Mission!");
-            Persistance.delete(level);
+            pers.delete(level);
             level = null;
             Exit();
         }
@@ -212,7 +231,8 @@ public final class GameController  {
 
     public static void Exit() {
         if (level != null) {
-            Persistance.SaveEntity(level);
+            pers.SaveEntity(level);
+            pers.CompletePersist();
         }
         System.exit(0);
     }
