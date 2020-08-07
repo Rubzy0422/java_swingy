@@ -66,4 +66,9 @@ public class Level {
         champ.setPlayery(champ.getPlayery() - y);
     }
 
+    @Override
+    public String toString() {
+        return this.Champions.get(0).getName() + " " + this.mapLevel + " " + this.Champions.size();
+    } 
+
 }

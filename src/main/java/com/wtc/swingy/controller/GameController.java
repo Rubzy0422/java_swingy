@@ -7,12 +7,13 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
-import com.wtc.swingy.View.ViewCreator;
+
 import com.wtc.swingy.model.Artifact;
 import com.wtc.swingy.model.Champion;
 import com.wtc.swingy.model.ChampionClass;
 import com.wtc.swingy.model.Level;
 import com.wtc.swingy.model.Persistance;
+import com.wtc.swingy.view.ViewCreator;
 
 
 public final class GameController  {
@@ -26,7 +27,9 @@ public final class GameController  {
     private static Persistance<Level> pers = new Persistance<Level>();
     private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private static javax.validation.Validator validator = factory.getValidator();
-
+    public static int prev_x = 0;
+    public static int prev_y = 0;
+    
     public static void CreateNewChamp() {
         Champ = new Champion("", ChampionClass.WARRIOR, 0, true, 4, 4);
         chosenClass = Champ.getChampionClass();
@@ -39,17 +42,21 @@ public final class GameController  {
     }
 
     public static boolean ValidateStart() {
-        String ValidationProblems = "";
-        Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(Champ);
+        if (Champ != null)
+        {
+            String ValidationProblems = "";
+            Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(Champ);
      
-        if (constraintViolations.size() > 0) {
-            for (ConstraintViolation<Champion> violation : constraintViolations) {
-                ValidationProblems += violation.getMessage() + "\n";
+            if (constraintViolations.size() > 0) {
+                for (ConstraintViolation<Champion> violation : constraintViolations) {
+                    ValidationProblems += violation.getMessage() + "\n";
+                }
             }
+            if (!ValidationProblems.isEmpty())
+                ViewCreator.Infodlg(ValidationProblems);
+            return constraintViolations.size() <= 0;  
         }
-        if (!ValidationProblems.isEmpty())
-            ViewCreator.Infodlg(ValidationProblems);
-        return constraintViolations.size() <= 0;
+        return false;
     }
 
     public static void initializeNew() {
@@ -118,12 +125,6 @@ public final class GameController  {
 
     public static void initializeLoad() {
         levels = pers.em.createQuery("Select a from Level a", Level.class).getResultList();
-        // System.out.println(lvls);
-        // for (Level lvl : levels) {
-        //     // 1. Get player Champion 
-        //     // 2. on champion Select Load Level (PlayBtn)
-        //     System.out.println(lvl.getSize());
-        // }
         ViewCreator.initializeLoad();
     }
 
@@ -132,23 +133,26 @@ public final class GameController  {
         {
             level = levels.get(index);
             Champ = level.getChampions().get(0);
+            chosenClass = Champ.getChampionClass();
+            return Champ.toString();
         }
-        return Champ.toString();
+        return "";
     }
 
     public static void initializeMain() {
         Champ = null;
+        chosenClass = null;
         ViewCreator.initializeMain();
     }
 
-    public static void UpdateLevelInfo(String Movement) {
+    public static void UpdateLevelInfo() {
         Champion _enem = ChampionCollide();
         if (_enem != null) {
             if (ViewCreator.Dialog("Would you like to fight [Y/N]?") == 0) {
                 Battle(_enem);
             }
             else {
-                Flee(Movement, _enem);
+                Flee(_enem);
             }
         }
 
@@ -159,34 +163,17 @@ public final class GameController  {
             level = null;
             Exit();
         }
-        ViewCreator.updateMap(level);
+//        Update Map
+        ViewCreator.initializeGame();
     }
 
-    private static void Flee(String Movement, Champion _enem) {
+    private static void Flee(Champion _enem) {
         Random rand = new Random();
         int test = rand.nextInt(1);
 
 
         if ((test % 2 ) == 1) {
-            switch (Movement) {
-//            MOVE BACK
-                case "LEFT": {
-                    Level.MoveChamp(Champ, 1, 0);
-                    break;
-                }
-                case "RIGHT": {
-                    Level.MoveChamp(Champ, -1, 0);
-                    break;
-                }
-                case "UP": {
-                    Level.MoveChamp(Champ, 0, -1);
-                    break;
-                }
-                case "DOWN": {
-                    Level.MoveChamp(Champ, 0, 1);
-                    break;
-                }
-            }
+            Level.MoveChamp(Champ, -prev_x, -prev_y);
         }
         else {
             Battle(_enem);
@@ -236,4 +223,21 @@ public final class GameController  {
         }
         System.exit(0);
     }
+
+	public static void SwitchUI(String string) {
+        String viewType = ViewCreator.viewType; 
+        if (viewType == "CONSOLE")
+            ViewCreator.viewType = "GUI";
+        if (viewType == "GUI")
+            ViewCreator.viewType = "CONSOLE";
+
+        switch (string) {
+            case "MAIN":
+                ViewCreator.initializeMain();
+                break;
+        
+            default:
+                break;
+        }
+	}
 }

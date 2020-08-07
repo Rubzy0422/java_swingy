@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -53,7 +54,7 @@ public class Champion {
     @ManyToOne(fetch = FetchType.LAZY)
     private Level level;
   
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Artifact artifact;
     
     public int compare(Champion champ) {
@@ -114,12 +115,12 @@ public class Champion {
     
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("HERO NAME:\t\t").append(this.Name).append("\n")
-        .append("HERO CLASS:\t\t").append(this.ChampionClass.name()).append("\n")
-        .append("HERO ATTACK:\t\t").append(this.Attack).append("\n")
-        .append(" HERO DEFENSE:\t\t").append(this.Defence).append("\n")
-        .append("HERO HIT POINTS:\t\t").append(this.HitPoints).append("\n")
-        .append("HERO XP:\t\t\t").append(this.Experience).append("\n");
+        sb.append("HERO NAME:\t").append(this.Name).append("\n")
+        .append("HERO CLASS:\t").append(this.ChampionClass.name()).append("\n")
+        .append("HERO ATTACK:\t").append(this.Attack).append("\n")
+        .append("HERO DEFENSE:\t").append(this.Defence).append("\n")
+        .append("HERO HIT POINTS:\t").append(this.HitPoints).append("\n")
+        .append("HERO XP:\t\t").append(this.Experience).append("\n");
 
         return sb.toString();
     }

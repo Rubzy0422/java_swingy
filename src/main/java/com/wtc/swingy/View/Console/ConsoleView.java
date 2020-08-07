@@ -1,4 +1,4 @@
-package com.wtc.swingy.View.Console;
+package com.wtc.swingy.view.Console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,10 +9,11 @@ import com.wtc.swingy.controller.GameController;
 import com.wtc.swingy.model.Champion;
 import com.wtc.swingy.model.ChampionClass;
 import com.wtc.swingy.model.Level;
+import com.wtc.swingy.view.ViewCreator;
 import java.util.logging.Logger;
 
 public final class ConsoleView {
-    private static BufferedReader buffreader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader buffreader = new BufferedReader(new InputStreamReader(System.in));
     private static String Name;
 
     public static void cls() {
@@ -26,18 +27,29 @@ public final class ConsoleView {
         System.out.println("1. Play Game");
         System.out.println("2. Load Game");
         System.out.println("3. Exit");
-
+        System.out.println("'x' GUI MODE");
+        
         try {
             String Option = buffreader.readLine().trim();
             // System.out.println(Option);
-            if (Option.equals("1"))
-                GameController.initializeNew();
-            else if (Option.equals("2"))
-                GameController.initializeLoad();
-            else if (Option.equals("3"))
-                GameController.Exit();
-            else
-                initializeMain();
+            switch (Option) {
+                case "1":
+                    GameController.initializeNew();
+                    break;
+                case "2":
+                    GameController.initializeLoad();
+                    break;
+                case "3":
+                    GameController.Exit();
+                    break;
+                case "x":
+                    ViewCreator.InitView("GUI");
+                    //GameController.SwitchUI("MAIN");
+                    break;
+                default:
+                    initializeMain();
+                    break;
+            }
 
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -61,35 +73,42 @@ public final class ConsoleView {
         try {
             String Option = buffreader.readLine().trim();
             // System.out.println(Option);
-            if (Option.equals("1")) {
-                cls();
-                System.out.println("ENTER Player Name:");
-                Name = buffreader.readLine().trim();
-                GameController.PlayerNameUpdate(Name);
-                initializeNew();
-            } else if (Option.equals("2")) {
-                cls();
-                System.out.println("Select Class:");
-                int i = 0;
-                for (ChampionClass cc : ChampionClass.values()) {
-                    System.out.println(i + " " + cc.name());
-                    i++;
-                }
-                int ans = Integer.parseInt(buffreader.readLine().trim());
-                if (ans < i && ans >= 0)
-                    GameController.Champ.setChampionClass(ChampionClass.values()[ans]);
-                initializeNew();
-            } else if (Option.equals("3")) {
-                if (GameController.ValidateStart())
-                    GameController.initializeGame("NEW");
-                else
+            switch (Option) {
+                case "1":
+                    cls();
+                    System.out.println("ENTER Player Name:");
+                    Name = buffreader.readLine().trim();
+                    GameController.PlayerNameUpdate(Name);
                     initializeNew();
-            } else if (Option.equals("4")) {
-                GameController.initializeMain();
-            } else if (Option.equals("x")) {
-                System.out.println("STILL TO ADD");
-            } else
-                initializeNew();
+                    break;
+                case "2":
+                    cls();
+                    System.out.println("Select Class:");
+                    int i = 0;
+                    for (ChampionClass cc : ChampionClass.values()) {
+                        System.out.println(i + " " + cc.name());
+                        i++;
+                    }   int ans = Integer.parseInt(buffreader.readLine().trim());
+                    if (ans < i && ans >= 0)
+                        GameController.Champ.setChampionClass(ChampionClass.values()[ans]);
+                    initializeNew();
+                    break;
+                case "3":
+                    if (GameController.ValidateStart())
+                        GameController.initializeGame("NEW");
+                    else
+                        initializeNew();
+                    break;
+                case "4":
+                    GameController.initializeMain();
+                    break;
+                case "x":
+                    GameController.SwitchUI("NEW");
+                    break;
+                default:
+                    initializeNew();
+                    break;
+            }
 
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -104,7 +123,7 @@ public final class ConsoleView {
 
     public static void initializeLoad() {
         cls();
-        // PRINT THINGYS
+
         System.out.println("Load MENU");
        
         if (GameController.Champ != null)
@@ -121,30 +140,34 @@ public final class ConsoleView {
         try {
             String Option = buffreader.readLine().trim();
             // System.out.println(Option);
-            if (Option.equals("1"))
-            {
-                cls();
-                System.out.println("LOAD GAME");
-                int i = 0;
-                for(Level lvl : GameController.levels){
-                    System.out.println(lvl.toString());
-                    i++;
-                }   
-                Option = buffreader.readLine().trim();
-                if (!Option.isBlank())
-                {
-                    int ans = Integer.parseInt(buffreader.readLine().trim());
-                    if (ans < i && ans >= 0)
-                        GameController.LoadGame(i);
-                }
+            switch (Option) {
+                case "1":
+                    cls();
+                    System.out.println("LOAD GAME");
+                    int i = 0;
+                    for(Level lvl : GameController.levels){
+                        System.out.println(i + " " + lvl.toString());
+                        i++;
+                    }
+                    
+                    String gSelect = buffreader.readLine().trim();
+                    if (!gSelect.isBlank())
+                    {
+                        int ans = Integer.parseInt(gSelect);
+                        if (ans < i && ans >= 0)
+                            GameController.LoadGame(i);
+                    }
+                    break;
+                case "2":
+                    if (GameController.Champ != null)
+                        GameController.initializeGame("OLD");
+                    break;
+                case "3":
+                    GameController.initializeMain();
+                    break;
+                default:
+                    break;
             }
-            else if (Option.equals("2"))
-            {
-                if (GameController.Champ != null)
-                    GameController.initializeGame("OLD");
-            }
-            else if (Option.equals("3"))
-                GameController.initializeMain();    
             initializeLoad();
         } catch (Exception ex)
         {
@@ -181,7 +204,7 @@ public final class ConsoleView {
 
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                sb.append(".");
+                sb.append("_");
             }
             sb.append("\n");
         }
@@ -206,6 +229,9 @@ public final class ConsoleView {
                 if (i > 0) {
                     Controller.ikeyPressed(i);
                 }
+            }
+            else {
+                updateMap(level);
             }
         }
         catch (IOException ex) {

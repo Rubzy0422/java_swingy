@@ -1,19 +1,89 @@
-package com.wtc.swingy.View;
-
-import com.wtc.swingy.View.Console.ConsoleView;
-import com.wtc.swingy.View.GUI.GUIView;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.wtc.swingy.view;
+import com.wtc.swingy.view.Console.ConsoleView;
+import com.wtc.swingy.View.GUI.View;
+import com.wtc.swingy.controller.GameController;
 import com.wtc.swingy.model.Level;
+import com.wtc.swingy.view.GUI.MainFrame;
+import com.wtc.swingy.view.GUI.MainWindow;
+import java.awt.Container;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import com.wtc.swingy.model.Screens;
+/**
+ *
+ * @author Ruben
+ */
+public class ViewCreator {
+    public static String viewType = "";
+    private static MainFrame MainFrame;
+    
+    public static void InitView(String _viewType)
+    {
+        viewType = _viewType;
+        
+        if (viewType.equals("GUI"))
+        {
+            MainFrame = new MainFrame();
+            MainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            MainFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent evt) {
+                  GameController.Exit();
+                }
+               });
+            MainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            MainFrame.setLocationRelativeTo(null);
+  
+        
+             
+                /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
-public final class ViewCreator {
-    public static String viewType = "CONSOLE";
-
+        /* Create and display the form */
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    MainFrame.setVisible(true);
+                }
+            });
+        }
+    
+        initializeMain();
+    }
+    
     public static void initializeNew() {
         if (viewType.equals("CONSOLE"))
         {
             ConsoleView.initializeNew();
             return; 
         }
-        GUIView.initializeNew();
+        MainFrame.setView(Screens.NEW);
     }
 
     public static void initializeGame() {
@@ -22,8 +92,10 @@ public final class ViewCreator {
             ConsoleView.initializeGame();
             return; 
         }
-        GUIView.initializeGame();
+        MainFrame.setView(Screens.GAME);
+        
     }
+
 
     public static void initializeLoad() {
         if (viewType.equals("CONSOLE"))
@@ -31,7 +103,7 @@ public final class ViewCreator {
             ConsoleView.initializeLoad();
             return; 
         }
-        GUIView.initializeLoad();
+        MainFrame.setView(Screens.LOAD);
     }
 
     public static void initializeMain() {
@@ -40,32 +112,21 @@ public final class ViewCreator {
             ConsoleView.initializeMain();
             return; 
         }
-        GUIView.initializeMain();
-	}
+        MainFrame.setView(Screens.MAIN);
+    }
 
-	public static int Dialog(String string) {
+    public static int Dialog(String string) {
         if (viewType.equals("CONSOLE"))
             return ConsoleView.Dialog(string);
-        return GUIView.Dialog(string);
+        return View.Dialog(string);
 	}
 
-	public static void updateMap(Level level) {
-        if (viewType.equals("CONSOLE"))
-        {
-            ConsoleView.updateMap(level);
-            return; 
-        }
-        GUIView.updateMap(level);
-	}
-
-	public static void Infodlg(String string) {
+    public static void Infodlg(String string) {
         if (viewType.equals("CONSOLE"))
         {
             ConsoleView.Infodlg(string);
             return; 
         }
-        GUIView.Infodlg(string);
-	};
-
-
+        View.Infodlg(string);
+	}
 }

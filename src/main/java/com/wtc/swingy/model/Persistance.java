@@ -12,8 +12,14 @@ public final class Persistance <T> {
 
     public Persistance()
     {
-        factory = Persistence.createEntityManagerFactory("puapi");
-        em = factory.createEntityManager();
+        try {
+            factory = Persistence.createEntityManagerFactory("puapi");
+            em = factory.createEntityManager();
+        }
+        catch (Exception ex) {
+            System.err.println("ERROR Creating Factory: " + ex.getMessage());
+           System.exit(-1);
+        }
     }
 
     public void CompletePersist() {
@@ -36,7 +42,8 @@ public final class Persistance <T> {
         }
         catch (RollbackException ex)
         {
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
+            System.err.println(ex.getCause().getMessage());
         }
     }
 
@@ -47,8 +54,7 @@ public final class Persistance <T> {
             em.getTransaction().commit();
         } catch (final Exception ex)
         {         
-            System.out.println("ERRPOR Removing entity:" + ex);
-            System.exit(-1);
+            System.err.println("ERRPOR Removing entity:" + ex);
         }
     }
 }
