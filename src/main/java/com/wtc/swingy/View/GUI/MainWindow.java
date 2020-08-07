@@ -12,6 +12,11 @@ package com.wtc.swingy.view.GUI;
 public class MainWindow extends javax.swing.JPanel {
 
     /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
      * Creates new form MainWindow
      */
     public MainWindow() {

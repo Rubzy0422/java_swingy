@@ -6,7 +6,7 @@
 package com.wtc.swingy;
 
 import com.wtc.swingy.view.ViewCreator;
-import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Ruben

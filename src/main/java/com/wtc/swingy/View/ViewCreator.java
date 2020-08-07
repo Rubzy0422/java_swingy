@@ -5,12 +5,9 @@
  */
 package com.wtc.swingy.view;
 import com.wtc.swingy.view.Console.ConsoleView;
-import com.wtc.swingy.View.GUI.View;
+import com.wtc.swingy.view.GUI.View;
 import com.wtc.swingy.controller.GameController;
-import com.wtc.swingy.model.Level;
 import com.wtc.swingy.view.GUI.MainFrame;
-import com.wtc.swingy.view.GUI.MainWindow;
-import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;

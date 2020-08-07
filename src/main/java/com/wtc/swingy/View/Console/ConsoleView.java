@@ -1,6 +1,7 @@
 package com.wtc.swingy.view.Console;
 
 import java.io.BufferedReader;
+import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -19,6 +20,14 @@ public final class ConsoleView {
     public static void cls() {
         System.out.print("\u001B[2J");
         System.out.flush();
+        System.out.println("   _________       .__                      ");
+        System.out.println("  /   _____/_  _  _|__| ____    ____ ___.__.");
+        System.out.println("  \\_____  \\\\ \\/ \\/ /  |/    \\  / ___<   |  |");
+        System.out.println(" /        \\\\     /|  |   |  \\/ /_/  >___  | ");
+        System.out.println("/_______  / \\/\\_/ |__|___|  /\\___  // ____| ");
+        System.out.println("        \\/                \\//_____/ \\/      ");
+        System.out.println("                                            ");       
+
     }
 
     public static void initializeMain() {
@@ -62,7 +71,7 @@ public final class ConsoleView {
         System.out.println("Champ Create: ");
         System.out.println(GameController.Champ);
 
-        System.out.println("\n\n\n\n");
+        System.out.println("\n\n\n");
 
         System.out.println("1. Set Champion Name");
         System.out.println("2. Set Champion Class");
@@ -121,6 +130,27 @@ public final class ConsoleView {
         updateMap(GameController.level);
     }
 
+    public static void loadGameMenu() throws IOException {
+        cls();
+        System.out.println("LOAD GAME");
+        int i = 0;
+        for(Level lvl : GameController.levels){
+            System.out.println(i + ": " + lvl.toString());
+            i++;
+        }
+    
+        String gSelect = buffreader.readLine().trim();
+        if (!gSelect.isBlank())
+        {
+            System.out.println(gSelect);
+            int ans = Integer.parseInt(gSelect);
+            if (ans < i && ans >= 0)
+                GameController.LoadGame(i);
+        }
+        else 
+            loadGameMenu();
+    }
+
     public static void initializeLoad() {
         cls();
 
@@ -142,21 +172,7 @@ public final class ConsoleView {
             // System.out.println(Option);
             switch (Option) {
                 case "1":
-                    cls();
-                    System.out.println("LOAD GAME");
-                    int i = 0;
-                    for(Level lvl : GameController.levels){
-                        System.out.println(i + " " + lvl.toString());
-                        i++;
-                    }
-                    
-                    String gSelect = buffreader.readLine().trim();
-                    if (!gSelect.isBlank())
-                    {
-                        int ans = Integer.parseInt(gSelect);
-                        if (ans < i && ans >= 0)
-                            GameController.LoadGame(i);
-                    }
+                    loadGameMenu();
                     break;
                 case "2":
                     if (GameController.Champ != null)

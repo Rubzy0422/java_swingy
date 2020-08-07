@@ -6,14 +6,11 @@
 package com.wtc.swingy.view.GUI;
 
 import com.wtc.swingy.controller.Controller;
-import static com.wtc.swingy.controller.Controller.ikeyPressed;
 import com.wtc.swingy.controller.GameController;
 import com.wtc.swingy.model.Champion;
 import com.wtc.swingy.model.Screens;
 import com.wtc.swingy.view.ImageUtil;
-import java.awt.Container;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.DefaultComboBoxModel;
 import com.wtc.swingy.model.ChampionClass;
 import com.wtc.swingy.model.Level;
@@ -24,6 +21,10 @@ import javax.swing.JLabel;
  * @author Ruben
  */
 public class MainFrame extends javax.swing.JFrame {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     GamePanel gpnl;
     /**
      * Creates new form MainFrame
