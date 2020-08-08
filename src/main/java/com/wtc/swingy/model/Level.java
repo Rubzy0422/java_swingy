@@ -26,10 +26,6 @@ public class Level {
 
     private int size;
     
-    // User Champ sould and will always be the first champion
-    @Transient
-    private int PlayerIndex = 0;
-
     @OneToMany(
         mappedBy = "level",
         cascade = CascadeType.ALL,

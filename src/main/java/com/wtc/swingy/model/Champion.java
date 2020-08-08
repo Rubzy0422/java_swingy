@@ -63,30 +63,10 @@ public class Champion {
         int eScore = (champ.getHitPoints() * champ.getAttack())  - this.Attack;       
         pScore += this.Experience;
         eScore += champ.getExperience();
-        System.out.println(pScore + " : " + eScore );
+//        System.out.println(pScore + " : " + eScore );
         if (pScore >= eScore)
             return Math.abs(eScore - pScore) * 10;
         return -1;
-    }
-
-    public void setExperience(int Experience)
-    {
-        Random rand = new Random();
-        this.Experience = Experience;
-        if (this.Experience >= this.level.getMapLevel() * 1000 + (this.level.getMapLevel() - 1) * (this.level.getMapLevel() - 1) * 450)
-        {
-            System.out.println("LEVEL UP");
-            this.level.LevelUp();
-            for (Champion c : this.level.getChampions())
-            {
-                c.setExperience(rand.nextInt(c.getExperience() + 10));
-                c.setAttack(rand.nextInt(c.getAttack() + 2));
-                c.setDefence(rand.nextInt(c.getDefence() + 2));
-                c.setHitPoints(rand.nextInt(c.getHitPoints() + 2));
-        
-                // Artifact artifact = new Artifact(level.getMapLevel());
-            }
-        }
     }
 
     public List<Champion> getEnemies()

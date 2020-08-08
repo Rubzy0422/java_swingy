@@ -21,25 +21,24 @@ public class GamePanel extends JPanel {
      *
      */
     private static final long serialVersionUID = 1L;
-    private List<JLabel> labels;
+    public List<JLabel> labels;
     private static int size;
-
+    public GridLayout gl;
 
     public GamePanel(int _size) {
-        super(new GridLayout(_size, _size));
+        super();
+        gl = new GridLayout(_size, _size);
+        super.setLayout(gl);
         size = _size;
-        this.labels = new ArrayList<JLabel>();
+        this.labels = new ArrayList<>();
          
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                this.labels.add(new JLabel("O"));
+                this.labels.add(new JLabel(""));
             }
         }  
-        
-        this.addKeyListener(new Controller(){});
+//        this.setFocus
 //        this.setLocationRelativeTo(null);
-        this.requestFocus();
-
     }
     
     
@@ -47,24 +46,22 @@ public class GamePanel extends JPanel {
     public void renderlabels()
     {
         this.removeAll();
+//        int i = 0;
         for (JLabel label : this.labels)
         {
+          
             label.setText("");
             this.add(label);
-//            System.out.println(label.getText());
         }
-            
+        this.revalidate();
         this.repaint();
     }
     
     public void SetLabel(int x,int y, JLabel label)
     {
-         int index = (y * size + x);
-//         JLabel lbl = labels.get(index);
-//         lbl = null;
-         labels.set(index, label);
+        int index = (y * size) + x;
+        this.labels.set(index, label);
     }
-//    Resize Event Set Icons 
 
     public int getMapSize()
     {
@@ -76,4 +73,15 @@ public class GamePanel extends JPanel {
         labels.clear();
     }
     
+    public void updateMapSize(int _Size)
+    {
+        this.gl.setColumns(_Size);
+        this.gl.setRows(_Size);
+        int cSize = ((_Size * _Size) - this.labels.size());
+         System.out.println((_Size * _Size) + " - " + this.labels.size() + "=" + cSize);
+        for (int i = 0; i < cSize; i++)
+            this.labels.add( this.labels.size() ,new JLabel());
+        this.size = _Size;
+        System.out.println("Label Length:" + this.labels.size());
+    }
 }

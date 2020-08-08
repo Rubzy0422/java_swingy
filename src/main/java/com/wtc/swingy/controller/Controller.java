@@ -23,7 +23,6 @@ public abstract class Controller implements KeyListener {
     }  
 
     public static void ikeyPressed(int k) {
-        System.out.println(k);
         if (k == KeyEvent.VK_LEFT || k == KeyEvent.VK_A) {
             Level.MoveChamp(GameController.Champ, -1, 0);
             GameController.prev_x = -1;

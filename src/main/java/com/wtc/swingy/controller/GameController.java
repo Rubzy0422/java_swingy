@@ -1,5 +1,6 @@
 package com.wtc.swingy.controller;
 
+import static com.wtc.swingy.controller.GameController.Champ;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -29,6 +30,7 @@ public final class GameController  {
     private static javax.validation.Validator validator = factory.getValidator();
     public static int prev_x = 0;
     public static int prev_y = 0;
+    private static Random rand = new Random();
     
     public static void CreateNewChamp() {
         Champ = new Champion("", ChampionClass.WARRIOR, 0, true, 4, 4);
@@ -75,8 +77,6 @@ public final class GameController  {
     }
 
     public static void GenerateChampions() {
-        final Random rand = new Random();
-        
         final int ChampAmount = (rand.nextInt(level.getSize() - 2) + 1) * 3;
         for (int y = 0; y < ChampAmount; y++) {
             GenerateChampion();
@@ -93,7 +93,6 @@ public final class GameController  {
     }
 
     public static void GenerateChampion() {
-        final Random rand = new Random();
         int numx = rand.nextInt(level.getSize());
         int numy = rand.nextInt(level.getSize());
         
@@ -105,9 +104,9 @@ public final class GameController  {
 
         // System.out.println(Champ.getAttack() + 4);
 
-        int attack =  rand.nextInt(Champ.getAttack() + 4); 
-        int defense = rand.nextInt(Champ.getDefence() + 4); 
-        int hitPoints = rand.nextInt(Champ.getHitPoints() + 4); 
+        int attack =  rand.nextInt(( Champ.getAttack() + 4 > 0 ? Champ.getAttack() + 4 : 30)); 
+        int defense = rand.nextInt(( Champ.getDefence() + 4 > 0 ? Champ.getDefence() + 4: 30)); 
+        int hitPoints = rand.nextInt(( Champ.getHitPoints() + 4 > 0 ? Champ.getHitPoints() + 4: 30)); 
 
         int VillanPower = Math.round((attack + defense + hitPoints) / 3);
 
@@ -168,9 +167,7 @@ public final class GameController  {
     }
 
     private static void Flee(Champion _enem) {
-        Random rand = new Random();
         int test = rand.nextInt(1);
-
 
         if ((test % 2 ) == 1) {
             Level.MoveChamp(Champ, -prev_x, -prev_y);
@@ -181,12 +178,32 @@ public final class GameController  {
     }
 
     private static void Battle(Champion _enem) {
-        Random rand = new Random();
-        // System.out.println("Battle!");
         int points = Champ.compare(_enem);
         if (points >= 0)
         {
             Champ.setExperience(Champ.getExperience() + points);
+            if (Champ.getExperience() >= level.getMapLevel() * 1000 + (level.getMapLevel() - 1) * (level.getMapLevel() - 1) * 450)
+        {
+            level.LevelUp();
+  
+            for (Champion c : level.getChampions())
+            {
+                int attack =  rand.nextInt(( Champ.getAttack() + 4 > 0 ? Champ.getAttack() + 4 : 30)); 
+                int defense = rand.nextInt(( Champ.getDefence() + 4 > 0 ? Champ.getDefence() + 4: 30)); 
+                int hitPoints = rand.nextInt(( Champ.getHitPoints() + 4 > 0 ? Champ.getHitPoints() + 4: 30)); 
+
+                int VillanPower = Math.round((attack + defense + hitPoints) / 3);
+                Artifact artifact = new Artifact(VillanPower > 0 ? VillanPower: 1);
+
+                int xp = rand.nextInt(Champ.getExperience() + 1);
+                c.setAttack(attack);
+                c.setDefence(defense);
+                c.setHitPoints(hitPoints);
+                c.setArtifact(artifact);
+                c.setExperience(xp);
+            }
+        }
+            
             level.removeChampion(_enem);
             if (rand.nextInt(100) % 5 == 0)
             {
@@ -224,7 +241,7 @@ public final class GameController  {
         System.exit(0);
     }
 
-	public static void SwitchUI(String string) {
+    public static void SwitchUI(String string) {
         String viewType = ViewCreator.viewType; 
         if (viewType == "CONSOLE")
             ViewCreator.viewType = "GUI";

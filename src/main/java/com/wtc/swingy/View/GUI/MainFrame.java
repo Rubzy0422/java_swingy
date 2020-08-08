@@ -65,6 +65,8 @@ public class MainFrame extends javax.swing.JFrame {
         {
            gpnl = new GamePanel(GameController.level.getSize());
            this.setContentPane(gpnl);
+           gpnl.requestFocus();
+           gpnl.addKeyListener(new Controller(){});
         }
         this.UpdateGame(gpnl);
         gpnl.renderlabels();
@@ -80,15 +82,10 @@ public class MainFrame extends javax.swing.JFrame {
             lblHeight = gpnl.getHeight() / GameController.level.getSize();
         }
         
+        if (GameController.level.getSize() != (gpnl.labels.size() / GameController.level.getSize()))           
+            gpnl.updateMapSize(GameController.level.getSize());
+        
         for (Champion Champ : GameController.level.getChampions()) {
-            if (Champ.isUserGenerated())
-            {
-                if (!(GameController.prev_x == 0 && GameController.prev_y == 0))
-                {
-                    JLabel tmp1 = new JLabel();
-                    gpnl.SetLabel(Champ.getPlayerx() - GameController.prev_x , Champ.getPlayery() + GameController.prev_y, tmp1);
-                }
-            }
                 JLabel tmp = new JLabel();
                 tmp.setIcon(
                     ImageUtil.scaleImage(
@@ -98,6 +95,16 @@ public class MainFrame extends javax.swing.JFrame {
                     )
             );
                 tmp.setToolTipText("A:" + Champ.getAttack() + " D:" + Champ.getDefence() + " HP:"+ Champ.getHitPoints() + " XP:"+ Champ.getExperience());
+            if (Champ.isUserGenerated())
+            {
+                if (!(GameController.prev_x == 0 && GameController.prev_y == 0))
+                {
+                    JLabel tmp1 = new JLabel();
+                    gpnl.SetLabel(Champ.getPlayerx() - GameController.prev_x , Champ.getPlayery() + GameController.prev_y, tmp1);
+                }
+                tmp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 255, 51), 2, true));
+            }
+                
                 gpnl.SetLabel(Champ.getPlayerx() , Champ.getPlayery(), tmp);
         }
         gpnl.renderlabels();

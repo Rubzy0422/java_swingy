@@ -54,7 +54,8 @@ public final class ConsoleView {
                 case "x":
                     ViewCreator.InitView("GUI");
                     //GameController.SwitchUI("MAIN");
-                    break;
+                    return;
+                    
                 default:
                     initializeMain();
                     break;
@@ -145,7 +146,7 @@ public final class ConsoleView {
             System.out.println(gSelect);
             int ans = Integer.parseInt(gSelect);
             if (ans < i && ans >= 0)
-                GameController.LoadGame(i);
+                GameController.LoadGame(ans);
         }
         else 
             loadGameMenu();
