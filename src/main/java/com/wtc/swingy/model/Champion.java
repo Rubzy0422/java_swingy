@@ -2,8 +2,6 @@ package com.wtc.swingy.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import lombok.Data;
 
 

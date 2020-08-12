@@ -1,14 +1,11 @@
 package com.wtc.swingy.controller;
 
-import static com.wtc.swingy.controller.GameController.Champ;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
-
 import com.wtc.swingy.model.Artifact;
 import com.wtc.swingy.model.Champion;
 import com.wtc.swingy.model.ChampionClass;

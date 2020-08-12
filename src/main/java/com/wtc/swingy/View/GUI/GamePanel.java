@@ -4,8 +4,7 @@
  * and open the template in the editor.
  */
 package com.wtc.swingy.view.GUI;
-
-import com.wtc.swingy.controller.Controller;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ public class GamePanel extends JPanel {
         super();
         gl = new GridLayout(_size, _size);
         super.setLayout(gl);
+        this.setBackground(Color.BLACK);
         size = _size;
         this.labels = new ArrayList<>();
          
@@ -78,10 +78,8 @@ public class GamePanel extends JPanel {
         this.gl.setColumns(_Size);
         this.gl.setRows(_Size);
         int cSize = ((_Size * _Size) - this.labels.size());
-         System.out.println((_Size * _Size) + " - " + this.labels.size() + "=" + cSize);
         for (int i = 0; i < cSize; i++)
             this.labels.add( this.labels.size() ,new JLabel());
-        this.size = _Size;
-        System.out.println("Label Length:" + this.labels.size());
+        GamePanel.size = _Size;
     }
 }

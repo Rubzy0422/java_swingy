@@ -1,7 +1,6 @@
 package com.wtc.swingy.view.Console;
 
 import java.io.BufferedReader;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
